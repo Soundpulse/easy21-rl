@@ -4,7 +4,6 @@ import random
 from collections import Counter
 import pandas as pd
 import matplotlib.pyplot as plt
-from IPython.display import clear_output
 import time
 import math
 
@@ -19,7 +18,7 @@ actions = [hit, stick]
 alpha = 0.01
 epsilon = 0.05
 lmd = 0.8
-theta = np.random.randn(36).reshape((36,1))
+theta = np.zeros((36, 1))
 
 def psi(state, action):
     

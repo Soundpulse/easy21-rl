@@ -4,11 +4,10 @@ import random
 from collections import Counter
 import pandas as pd
 import matplotlib.pyplot as plt
-from IPython.display import clear_output
 import time
 import math
 
-ITERATIONS = 1000000
+ITERATIONS = 300000
 
 #LFA for full model (10*21*2)
 
@@ -19,7 +18,7 @@ actions = [hit, stick]
 alpha = 0.01
 epsilon = 0.05
 lmd = 0.8
-theta = np.random.randn(420).reshape((420,1))
+theta = np.zeros((420, 1))
 
 def psi(state, action):
     

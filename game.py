@@ -3,7 +3,6 @@ import random
 from collections import Counter
 import pandas as pd
 import matplotlib.pyplot as plt
-from IPython.display import clear_output
 import time
 import math
 
@@ -96,7 +95,7 @@ def visualise(matrix):
 
     ax.plot_trisurf(df['Y'], df['X'], df['Z'], cmap=plt.cm.viridis, linewidth=0.2)
     ax.set_xticks(np.arange(1, 11, 1))
-    ax.set_yticks(np.arange(0, 22, 2))
+    ax.set_yticks(np.arange(1, 22, 2))
     ax.set_xlabel("Dealer Showing", fontsize=14)
     ax.set_ylabel("Player Sum", fontsize=14)
     ax.set_zlabel("Expected Reward", fontsize=14)

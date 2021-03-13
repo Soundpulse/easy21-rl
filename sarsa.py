@@ -4,7 +4,6 @@ import random
 from collections import Counter
 import pandas as pd
 import matplotlib.pyplot as plt
-from IPython.display import clear_output
 import time
 import math
 
