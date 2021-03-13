@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import time
 import math
 
-ITERATIONS = 50000
+ITERATIONS = 100000
 
 #QAC for full model (10*21*2)
 
@@ -16,11 +16,10 @@ stick = False
 actions = [hit, stick]
 
 alpha = 0.01
-beta = 0.01
-lmd = 0.5
+lmd = 0.6
 theta = np.zeros((420, ))
 w = np.zeros((420, ))
-
+N_matrix = np.zeros((10,21,2))
 
 def psi(state, action):
     
@@ -38,6 +37,12 @@ def psi(state, action):
     
 def Q(state, action, weight):
     return np.dot(psi(state, action), weight)
+
+def N(state, action):
+    return N_matrix[state.dealer - 1][state.player - 1][int(action)]
+	
+def increment_n(state, action):
+	N_matrix[state.dealer - 1][state.player - 1][int(action)] += 1
 
 def V(q):
     return np.max(q, axis=2) 
@@ -99,7 +104,9 @@ if __name__ == "__main__":
         
         state = game.initialise_state()
         action = softmax_policy(state, theta)
-
+		
+        E_matrix = np.zeros_like(theta)
+		
         while not terminal:
             next_state, reward = game.step(state, action)
             terminal = state.terminal
@@ -110,8 +117,14 @@ if __name__ == "__main__":
             else:
                 delta = reward - Q(state, action, w)
 			
-            theta += alpha * Q(state, action, w) * score_function(state, action, theta)
-            w += beta * delta * psi(state, action)
+            increment_n(state, action)
+            alpha = min(1/N(state, action), 0.01)
+			
+            advantage = reward - Q(state, action, w)
+            theta += alpha * score_function(state, action, theta) * advantage
+
+            E_matrix = np.add(lmd * E_matrix, psi(state, action))
+            w += alpha * delta * E_matrix
 
             if not terminal:
                 state = next_state

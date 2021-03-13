@@ -18,7 +18,7 @@ actions = [hit, stick]
 alpha = 0.01
 epsilon = 0.05
 lmd = 0.8
-theta = np.zeros((420, 1))
+theta = np.random.randn(420).reshape((420,1))
 
 def psi(state, action):
     
@@ -47,14 +47,14 @@ def epsilon_greedy(state, theta):
     else:
         return bool(np.argmax([Q(state, a, theta) for a in actions]))
         
-def generate_Q(theta):
+def generate_Q(weight):
     
     Q_matrix = np.zeros((10, 21, 2))
     
     for i in range(0, 10, 1):
         for j in range(0, 21, 1):
             for k in range(0, 2, 1):
-                Q_matrix[i][j][k] = Q(game.State(i, j, True), bool(k), theta)
+                Q_matrix[i][j][k] = Q(game.State(i+1, j+1, True), bool(k), weight)
                 
     return Q_matrix
     

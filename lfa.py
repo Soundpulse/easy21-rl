@@ -4,6 +4,7 @@ import random
 from collections import Counter
 import pandas as pd
 import matplotlib.pyplot as plt
+from IPython.display import clear_output
 import time
 import math
 
@@ -18,7 +19,7 @@ actions = [hit, stick]
 alpha = 0.01
 epsilon = 0.05
 lmd = 0.8
-theta = np.zeros((36, 1))
+theta = np.random.randn(36).reshape((36,1))
 
 def psi(state, action):
     
@@ -47,14 +48,14 @@ def epsilon_greedy(state):
     else:
         return bool(np.argmax([Q(state, a) for a in actions]))
         
-def generate_Q():
+def generate_Q(weight):
     
     Q_matrix = np.zeros((10, 21, 2))
     
     for i in range(0, 10, 1):
         for j in range(0, 21, 1):
             for k in range(0, 2, 1):
-                Q_matrix[i][j][k] = Q(game.State(i, j, True), bool(k))
+                Q_matrix[i][j][k] = Q(game.State(i+1, j+1, True), bool(k), weight)
                 
     return Q_matrix
     
